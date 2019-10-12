@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import pl.tukanmedia.workerserver.entity.Task;
+import pl.tukanmedia.workerserver.entity.Comment;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long>{
+public interface CommentRepository extends JpaRepository<Comment, Long>{
 
-	List<Task> findAllByOrderByIdAsc();
+	List<Comment> findAllByTaskIdOrderByIdAsc(Long idTask);
 	
 }

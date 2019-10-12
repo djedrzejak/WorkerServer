@@ -1,15 +1,11 @@
 package pl.tukanmedia.workerserver.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import pl.tukanmedia.workerserver.entity.Task;
+import pl.tukanmedia.workerserver.entity.Status;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long>{
+public interface StatusRepository extends JpaRepository<Status, Long>{
 
-	List<Task> findAllByOrderByIdAsc();
-	
 }

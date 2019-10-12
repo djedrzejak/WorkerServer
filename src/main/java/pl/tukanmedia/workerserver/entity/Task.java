@@ -1,6 +1,10 @@
 package pl.tukanmedia.workerserver.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,37 +12,55 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="task")
+@Table(name = "task")
 public class Task {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="task_generator")
-	@SequenceGenerator(name="task_generator", sequenceName="task_seq")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@Column
+	
+	@Column(length = 200)
 	private String title;
-	@Column
+	
+	@Column(length = 10000)
 	private String content;
+	
 	@Column
 	private BigDecimal price;
-	@ManyToOne()
-	@JoinColumn(name="id_priority")
-	private Priority priority;
-	@ManyToOne()
-	@JoinColumn(name="id_settlement")
-	private Settlement settlement;
-	@ManyToOne()
-	@JoinColumn(name="id_status")
-	private Status status;
-	@ManyToOne()
-	@JoinColumn(name="id_client")
-	private Client client;
 	
-	public Task() {}
+	@Column
+	private Long progress;
+	
+	@Column
+	private Boolean paid;
+	
+	@Column
+	private Date createDate;
+	
+	@Column
+	private Date closeDate;
+	
+	@ManyToOne()
+	@JoinColumn(name = "id_priority")
+	private Priority priority;
+	
+	@ManyToOne()
+	@JoinColumn(name = "id_status")
+	private Status status;
+	
+	@ManyToOne()
+	@JoinColumn(name = "id_client")
+	private Client client;
+
+	@OneToMany(mappedBy = "task")
+	private List<Comment> comments = new ArrayList<>();
+	
+	public Task() {
+	}
 
 	public Long getId() {
 		return id;
@@ -72,20 +94,20 @@ public class Task {
 		this.price = price;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
 	public Priority getPriority() {
 		return priority;
 	}
 
 	public void setPriority(Priority priority) {
 		this.priority = priority;
-	}
-
-	public Settlement getSettlement() {
-		return settlement;
-	}
-
-	public void setSettlement(Settlement settlement) {
-		this.settlement = settlement;
 	}
 
 	public Status getStatus() {
@@ -104,10 +126,35 @@ public class Task {
 		this.client = client;
 	}
 
+	public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
+	}
+
+	public Long getProgress() {
+		return progress;
+	}
+
+	public void setProgress(Long progress) {
+		this.progress = progress;
+	}
+
+	public Boolean getPaid() {
+		return paid;
+	}
+
+	public void setPaid(Boolean paid) {
+		this.paid = paid;
+	}
+
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", title=" + title + ", content=" + content + ", price=" + price + ", priority="
-				+ priority + ", settlement=" + settlement + ", status=" + status + ", client=" + client + "]";
+		return "Task [id=" + id + ", title=" + title + ", content=" + content + ", price=" + price + ", progress="
+				+ progress + ", paid=" + paid + ", createDate=" + createDate + ", closeDate=" + closeDate
+				+ ", priority=" + priority + ", status=" + status + ", client=" + client + "]";
 	}
 	
 }
